@@ -6,7 +6,7 @@ avg_ratings = FILTER avg_ratings BY count_rating >= 10;
 movies = LOAD '/root/input/u.item' USING PigStorage('|') AS (movie_id:int, movie_name:chararray);
 
 joined = JOIN avg_ratings BY movie_id, movies BY movie_id;
-dataset = FOREACH joined GENERATE movies::movie_name as movie_name, len_movie::SIZE(movie_name) as len_movie;
+dataset = FOREACH joined GENERATE movies::movie_name as movie_name, SIZE(movie_name) as len_movie;
 ordered = ORDER dataset BY len_movie desc;
 top10 = LIMIT ordered 10;
 DUMP top10;
